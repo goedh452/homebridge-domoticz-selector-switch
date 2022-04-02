@@ -26,17 +26,16 @@ function DomoticzSelector(log, config)
 	this.stayValue		   = config.stayValue       || 30;
 	this.timeout         = config.timeout         || 2000;
 	this.pollingInterval = config.pollingInterval || 5000;
-	this.model 				   = config.model           || "homebridge-selector";
-  this.serial 			   = config.serial          || "homebridge-selector";
 
   // Custom variables
-  this.statusUrl = this.domoticzURL + ":" + this.domoticzPort + "/json.htm?type=devices&rid=" + this.deviceIDX;
-	this.offUrl    = this.domoticzURL + ":" + this.domoticzPort + "/json.htm?type=command&param=switchlight&idx=" + this.deviceIDX + "&switchcmd=Set%20Level&level=" + this.offValue;
-  this.nightUrl  = this.domoticzURL + ":" + this.domoticzPort + "/json.htm?type=command&param=switchlight&idx=" + this.deviceIDX + "&switchcmd=Set%20Level&level=" + this.nightValue;
-	this.awayUrl   = this.domoticzURL + ":" + this.domoticzPort + "/json.htm?type=command&param=switchlight&idx=" + this.deviceIDX + "&switchcmd=Set%20Level&level=" + this.awayValue;
-	this.stayUrl   = this.domoticzURL + ":" + this.domoticzPort + "/json.htm?type=command&param=switchlight&idx=" + this.deviceIDX + "&switchcmd=Set%20Level&level=" + this.stayValue;
+  this.statusUrl      = this.domoticzURL + ":" + this.domoticzPort + "/json.htm?type=devices&rid=" + this.deviceIDX;
+	this.baseCommandUrl = this.domoticzURL + ":" + this.domoticzPort + "/json.htm?type=command&param=switchlight&idx=" + this.deviceIDX + "&switchcmd=Set%20Level&level=";
+	this.offUrl         = this.baseCommandUrl + this.offValue;
+  this.nightUrl       = this.baseCommandUrl + this.nightValue;
+	this.awayUrl        = this.baseCommandUrl + this.awayValue;
+	this.stayUrl        = this.baseCommandUrl + this.stayValue;
+	this.newStatus;
 
-	this.statusOn = false;
 	var that = this;
 
 	// Status Polling
@@ -73,7 +72,15 @@ function DomoticzSelector(log, config)
 				var json = JSON.parse(responseBody);
 				var status = eval("json.result[0].Level");
 
-				if (status == that.offValue)
+				if (status == that.stayValue)   { that.newStatus = 0; }
+				if (status == that.awayValue)   { that.newStatus = 1; }
+				if (status == that.nightValue)  { that.newStatus = 2; }
+				if (status == that.offValue) 		{ that.newStatus = 3; }
+
+			  that.securityService.getCharacteristic(Characteristic.SecuritySystemCurrentState).updateValue(that.newStatus);
+				that.securityService.getCharacteristic(Characteristic.SecuritySystemTargetState).updateValue(that.newStatus);
+
+				/*if (status == that.offValue)
 				{
 					//that.log("State is currently: DISARMED");
 					that.securityService.getCharacteristic(Characteristic.SecuritySystemCurrentState)
@@ -107,7 +114,7 @@ function DomoticzSelector(log, config)
 					.updateValue(0);
 					that.securityService.getCharacteristic(Characteristic.SecuritySystemTargetState)
 					.updateValue(0);
-				}
+				}*/
 		}
 
 	});
@@ -158,10 +165,10 @@ getCurrentState: function(callback)
 			var json = JSON.parse(body);
 			var status = eval("json.result[0].Level");
 
-			if (status == this.offValue) 		{ state = 3; }
+			if (status == this.stayValue)   { state = 0; }
+			if (status == this.awayValue)   { state = 1; }
 			if (status == this.nightValue)  { state = 2; }
-			if (status == this.stayValue)   { state = 1; }
-			if (status == this.awayValue)   { state = 0; }
+			if (status == this.offValue) 		{ state = 3; }
 
 			callback(error, state);
 		}
@@ -184,10 +191,10 @@ getTargetState: function(callback)
 			var json = JSON.parse(body);
 			var status = eval("json.result[0].Level");
 
-			if (status == this.offValue) 		{ state = 3; }
+			if (status == this.stayValue)   { state = 0; }
+			if (status == this.awayValue)   { state = 1; }
 			if (status == this.nightValue)  { state = 2; }
-			if (status == this.stayValue)   { state = 1; }
-			if (status == this.awayValue)   { state = 0; }
+			if (status == this.offValue) 		{ state = 3; }
 
 			callback(error, state);
 		}
@@ -237,10 +244,10 @@ getServices: function ()
 	this.informationService = new Service.AccessoryInformation();
 
   this.informationService
-    .setCharacteristic(Characteristic.Manufacturer, 'goedh452')
-    .setCharacteristic(Characteristic.Model, this.model)
-    .setCharacteristic(Characteristic.SerialNumber, this.serial)
-		.setCharacteristic(Characteristic.FirmwareRevision, '0.1.0');
+    .setCharacteristic(Characteristic.Manufacturer, 'Selector Switch')
+    .setCharacteristic(Characteristic.Model, 'Security device')
+    .setCharacteristic(Characteristic.SerialNumber, 'Domoticz IDX ' + this.deviceIDX)
+		.setCharacteristic(Characteristic.FirmwareRevision, '1.0');
 
   this.securityService = new Service.SecuritySystem(this.name);
 
