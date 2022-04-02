@@ -1,7 +1,7 @@
 {
-  "name": "homebridge-heating-domoticz",
+  "name": "homebridge-domoticz-selector-switch",
   "version": "1.0.0",
-  "description": "Homebridge heating systeem for Domoticz",
+  "description": "Homebridge security device linking a selector switch in Domoticz",
   "license": "BSD-2-Clause",
   "keywords": [
   "homebridge-plugin"
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/goedh452/homebridge-heating-domoticz"
+    "url": "git://github.com/goedh452/homebridge-domoticz-selector-switch"
   },
   "dependencies": {
     "polling-to-event": ">=2.1.0",
