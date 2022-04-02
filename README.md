@@ -1,8 +1,8 @@
-# homebridge-heating-domoticz
+# homebridge-domoticz-selector-switch
 
 ## Description
 
-This [homebridge](https://github.com/nfarina/homebridge) plugin exposes a web-based heating system to Apple's [HomeKit](http://www.apple.com/ios/home/) and allows you to control it via HTTP requests. The heating is displayed as a security service to be able to set if you are at home, away, etcetera.
+This [homebridge](https://github.com/nfarina/homebridge) plugin exposes a web-based system to Apple's [HomeKit](http://www.apple.com/ios/home/) and allows you to control a selector switch via HTTP requests. The device is displayed as a security service to be able to set if you are at home, away, etcetera.
 
 ## Domoticz integration
 
@@ -11,8 +11,12 @@ This plugin only works with Domoticz and a selector switch. This plugin uses a s
 ## Installation
 
 1. Install [homebridge](https://github.com/nfarina/homebridge#installation-details)
-2. Install this plugin: `npm install -g homebridge-heating-domoticz`
-3. Update your `config.json` file
+
+The plugin is compatible with the Homebridge UI
+
+**Manual installation** 
+1. Install this plugin: `npm install -g homebridge-domoticz-selector-switch`
+2. Update your `config.json` file
 
 ## Configuration
 
