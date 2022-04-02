@@ -7,7 +7,7 @@ module.exports = function(homebridge)
 {
 	Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
-    homebridge.registerAccessory("homebridge-heating-domoticz", "DomoticzSelector", DomoticzSelector);
+    homebridge.registerAccessory("homebridge-domoticz-selector-switch", "DomoticzSelector", DomoticzSelector);
 };
 
 
@@ -16,23 +16,25 @@ function DomoticzSelector(log, config)
 	this.log = log;
 
 	// Get config info
-	this.name		= config.name			|| "HTTP Heating System";
+	this.name						 = config.name            || "Selector switch";
+	this.domoticzURL     = config.domoticzURL;
+	this.domoticzPort    = config.domoticzPort;
+	this.deviceIDX       = config.deviceIDX;
+	this.offValue			   = config.offValue        || 0;
+	this.nightValue		   = config.nightValue      || 10;
+	this.awayValue		   = config.awayValue       || 20;
+	this.stayValue		   = config.stayValue       || 30;
+	this.timeout         = config.timeout         || 2000;
+	this.pollingInterval = config.pollingInterval || 5000;
+	this.model 				   = config.model           || "homebridge-selector";
+  this.serial 			   = config.serial          || "homebridge-selector";
 
-	this.offUrl          		= config.offUrl;
-	this.awayUrl            = config.awayUrl;
-	this.nightUrl           = config.nightUrl;
-	this.stayUrl	          = config.stayUrl;
-  this.statusUrl          = config.statusUrl;
-	this.timeout            = config.timeout            || 2000;
-	this.pollingInterval    = config.pollingInterval   	|| 5000;
-
-	this.offValue			= config.offValue									|| "0";
-	this.nightValue		= config.nightValue								|| "10";
-	this.awayValue		= config.awayValue								|| "20";
-	this.stayValue		= config.stayValue								|| "30";
-
-	this.model 				= config.model 										|| "homebridge-heating";
-  this.serial 			= config.serial 									|| "homebridge-heating";
+  // Custom variables
+  this.statusUrl = this.domoticzURL + ":" + this.domoticzPort + "/json.htm?type=devices&rid=" + this.deviceIDX;
+	this.offUrl    = this.domoticzURL + ":" + this.domoticzPort + "/json.htm?type=command&param=switchlight&idx=" + this.deviceIDX + "&switchcmd=Set%20Level&level=" + this.offValue;
+  this.nightUrl  = this.domoticzURL + ":" + this.domoticzPort + "/json.htm?type=command&param=switchlight&idx=" + this.deviceIDX + "&switchcmd=Set%20Level&level=" + this.nightValue;
+	this.awayUrl   = this.domoticzURL + ":" + this.domoticzPort + "/json.htm?type=command&param=switchlight&idx=" + this.deviceIDX + "&switchcmd=Set%20Level&level=" + this.awayValue;
+	this.stayUrl   = this.domoticzURL + ":" + this.domoticzPort + "/json.htm?type=command&param=switchlight&idx=" + this.deviceIDX + "&switchcmd=Set%20Level&level=" + this.stayValue;
 
 	this.statusOn = false;
 	var that = this;
@@ -97,7 +99,7 @@ function DomoticzSelector(log, config)
 					that.securityService.getCharacteristic(Characteristic.SecuritySystemTargetState)
 					.updateValue(1);
 				}
-				
+
 				if (status == that.stayValue)
 				{
 					//that.log("State is currently: STAY");
