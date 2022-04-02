@@ -7,11 +7,11 @@ module.exports = function(homebridge)
 {
 	Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
-    homebridge.registerAccessory("homebridge-heating-domoticz", "HttpHeatingSystem", HttpHeatingSystem);
+    homebridge.registerAccessory("homebridge-heating-domoticz", "DomoticzSelector", DomoticzSelector);
 };
 
 
-function HttpHeatingSystem(log, config)
+function DomoticzSelector(log, config)
 {
 	this.log = log;
 
@@ -113,7 +113,7 @@ function HttpHeatingSystem(log, config)
 }
 
 
-HttpHeatingSystem.prototype =
+DomoticzSelector.prototype =
 {
 
 httpRequest: function (url, body, method, callback)
