@@ -13,50 +13,51 @@
 				"default": "Selector",
 				"required": true
 			},
-			"offUrl": {
-				"title": "offUrl",
+			"domoticzURL": {
+				"title": "URL to domoticz",
 				"type": "string",
-				"required": true
+				"required": true,
+				"description": "Domoticz URL, e.g. http://192.168.1.110"
 			},
-			"stayUrl": {
-				"title": "stayUrl",
+			"domoticzPort": {
+				"title": "Port of domoticz",
 				"type": "string",
-				"required": true
+				"required": true,
+				"description": "Domoticz port, e.g. 8081"
 			},
-      "nightUrl": {
-				"title": "nightUrl",
+			"deviceIDX": {
+				"title": "IDX",
 				"type": "string",
-				"required": true
+				"required": true,
+				"description": "Domoticz IDX of the selector switch"
 			},
-      "awayUrl": {
-				"title": "awayUrl",
+      "offValue": {
+				"title": "Value off",
 				"type": "string",
-				"required": true
+				"required": true,
+				"default": "0",
+				"description": "Value selector switch when in the home app OFF is selected"
 			},
-      "statusUrl": {
-				"title": "statusUrl",
+      "stayValue": {
+				"title": "Value stay",
 				"type": "string",
-				"required": true
+				"required": true,
+				"default": "10",
+				"description": "Value selector switch when in the home app STAY is selected"
 			},
-      "offValueSelector": {
-				"title": "offValue",
+      "nightValue": {
+				"title": "Value night",
 				"type": "string",
-				"required": true
+				"required": true,
+				"default": "20",
+				"description": "Value selector switch when in the home app NIGHT is selected"
 			},
-      "stayValueSelector": {
-				"title": "stayValue",
+      "awayValue": {
+				"title": "Value away",
 				"type": "string",
-				"required": true
-			},
-      "nightValueSelector": {
-				"title": "nightValue",
-				"type": "string",
-				"required": true
-			},
-      "awayValueSelector": {
-				"title": "awayValue",
-				"type": "string",
-				"required": true
+				"required": true,
+				"default": "30",
+				"description": "Value selector switch when in the home app AWAY is selected"
 			},
       "timeout": {
 				"title": "timeout",
