@@ -1,0 +1,75 @@
+{
+	"pluginAlias": "DomoticzSelector",
+	"pluginType": "accessory",
+	"singular": false,
+	"headerDisplay": "Homebridge plugin for connecting a security device to a selector switch in Domoticz",
+	"footerDisplay": "",
+	"schema": {
+		"type": "object",
+		"properties": {
+			"name": {
+				"title": "Name",
+				"type": "string",
+				"default": "Selector",
+				"required": true
+			},
+			"offUrl": {
+				"title": "offUrl",
+				"type": "string",
+				"required": true
+			},
+			"stayUrl": {
+				"title": "stayUrl",
+				"type": "string",
+				"required": true
+			},
+      "nightUrl": {
+				"title": "nightUrl",
+				"type": "string",
+				"required": true
+			},
+      "awayUrl": {
+				"title": "awayUrl",
+				"type": "string",
+				"required": true
+			},
+      "statusUrl": {
+				"title": "statusUrl",
+				"type": "string",
+				"required": true
+			},
+      "offValueSelector": {
+				"title": "offValue",
+				"type": "string",
+				"required": true
+			},
+      "stayValueSelector": {
+				"title": "stayValue",
+				"type": "string",
+				"required": true
+			},
+      "nightValueSelector": {
+				"title": "nightValue",
+				"type": "string",
+				"required": true
+			},
+      "awayValueSelector": {
+				"title": "awayValue",
+				"type": "string",
+				"required": true
+			},
+      "timeout": {
+				"title": "timeout",
+				"type": "integer",
+				"default": 2000,
+				"required": false
+			},
+      "pollingInterval": {
+				"title": "pollingInterval",
+				"type": "integer",
+				"default": 5000,
+				"required": false
+			}
+    }
+	}
+}
