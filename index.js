@@ -67,18 +67,16 @@ function DomoticzSelector(log, config)
 
 		statusemitter.on("statuspoll", function (responseBody)
 		{
-			if (that.offValue && that.nightValue && that.awayValue && that.stayUrl)
-			{
-				var json = JSON.parse(responseBody);
-				var status = eval("json.result[0].Level");
+			var json = JSON.parse(responseBody);
+			var status = eval("json.result[0].Level");
 
-				if (status == that.stayValue)   { that.newStatus = 0; }
-				if (status == that.awayValue)   { that.newStatus = 1; }
-				if (status == that.nightValue)  { that.newStatus = 2; }
-				if (status == that.offValue) 		{ that.newStatus = 3; }
+			if (status == that.stayValue)	{ that.newStatus = 0; }
+			if (status == that.awayValue)	{ that.newStatus = 1; }
+			if (status == that.nightValue)	{ that.newStatus = 2; }
+			if (status == that.offValue)	{ that.newStatus = 3; }
 
-			  that.securityService.getCharacteristic(Characteristic.SecuritySystemCurrentState).updateValue(that.newStatus);
-				that.securityService.getCharacteristic(Characteristic.SecuritySystemTargetState).updateValue(that.newStatus);
+			that.securityService.getCharacteristic(Characteristic.SecuritySystemCurrentState).updateValue(that.newStatus);
+			that.securityService.getCharacteristic(Characteristic.SecuritySystemTargetState).updateValue(that.newStatus);
 
 				/*if (status == that.offValue)
 				{
@@ -115,9 +113,7 @@ function DomoticzSelector(log, config)
 					that.securityService.getCharacteristic(Characteristic.SecuritySystemTargetState)
 					.updateValue(0);
 				}*/
-		}
-
-	});
+		});
 	}
 }
 
